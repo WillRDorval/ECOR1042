@@ -5,6 +5,7 @@ Members: Mohammad Saud, William Dorval, Chaelan Murray, Raunaq Hoque
 
 """
 from Cimpl import *
+from unit_testing import *
 
 def combine(red_img: Image, green_img: Image, blue_img: Image) -> Image:
     """ 
@@ -43,7 +44,17 @@ red = load_image(choose_file())
 green = load_image(choose_file())
 blue = load_image(choose_file())
 combination = combine(red, green, blue)
-save_as(combination, 'combined_image.png')
+#save_as(combination, 'combined_image.png')
+show(combination)
+
+original = load_image(choose_file())
+combination_sv = load_image(choose_file())
+#check_equal("provided original image with combined image", combination_sv, original)
+
+if original == combination_sv:
+    print("pass")
+else:
+    print("failed")
 
 
 
