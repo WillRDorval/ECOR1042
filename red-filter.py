@@ -1,5 +1,5 @@
-from Cimpl import choose_file, load_image, copy, create_color, set_color, show, Image, get_color
-
+from Cimpl import choose_file, load_image, copy, create_color, set_color, show, Image
+from unit_testing import check_equal
 
 def red_channel(image: Image) -> Image:
     """
@@ -14,3 +14,7 @@ def red_channel(image: Image) -> Image:
         red = create_color(0, 0, b)
         set_color(new_image, x, y, red)
     return new_image
+
+
+
+def red_channel_test():
