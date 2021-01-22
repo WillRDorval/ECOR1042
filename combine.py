@@ -18,8 +18,11 @@ def combine(red_img: Image, green_img: Image, blue_img: Image) -> Image:
     >>> green = load_image(choose_file())
     >>> combination = combine(red, green, blue)
     >>> show(combination)
+<<<<<<< HEAD
     
     Created by Mohammad Saud
+=======
+>>>>>>> Saud-Project
     """
     
     final_height = get_height(red_img)
@@ -42,6 +45,7 @@ def combine(red_img: Image, green_img: Image, blue_img: Image) -> Image:
 
     return combine_image
 
+<<<<<<< HEAD
 
 def test_combine() -> None:
     """
@@ -68,10 +72,13 @@ def test_combine() -> None:
 #MAIN SCRIPT    
 
 # Using the combine function
+=======
+>>>>>>> Saud-Project
 red = load_image(choose_file())
 green = load_image(choose_file())
 blue = load_image(choose_file())
 combination = combine(red, green, blue)
+<<<<<<< HEAD
 show(combination)
 
 #Testing whether the combine function works
@@ -81,6 +88,19 @@ test_combine()
 
 
 
+=======
+#save_as(combination, 'combined_image.png')
+show(combination)
+
+original = load_image(choose_file())
+combination_sv = load_image(choose_file())
+#check_equal("provided original image with combined image", combination_sv, original)
+
+if original == combination_sv:
+    print("pass")
+else:
+    print("failed")
+>>>>>>> Saud-Project
 
 
 
