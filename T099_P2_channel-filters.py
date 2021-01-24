@@ -1,9 +1,16 @@
 """
+Team Submission
+
 Team T099
 Members: Mohammad Saud, William Dorval, Chaelan Murray, Raunaq Hoque
 
+Red channel: William Dorval
+Green channel: Chaelan Murray
+Blue channel: Raunaq Hoque
+Combine: Mohammad Saud
+
 """
-from Cimpl import choose_file, load_image, copy, create_color, set_color, show, Image, get_color, create_image
+from Cimpl import choose_file, load_image, copy, create_color, set_color, show, Image, get_color, create_image, get_height, get_width, Color, save_as
 from unit_testing import check_equal
 
 #RED CHANNEL
@@ -13,6 +20,8 @@ def red_channel(image: Image) -> Image:
     >>> test_image = load_image(choose_file())
     >>> test_result = red_channel(test_image)
     >>> show(test_result)
+    
+    Created by William Dorval(101187466)
     """
     new_image = copy(image)
     for pixel in new_image:
@@ -23,6 +32,10 @@ def red_channel(image: Image) -> Image:
 
 #RED CHANNEL TESTS
 def red_channel_image_test(filepath: str):
+    """
+    Created by William Dorval(101187466)
+    """
+    
     big_c = load_image(f"{filepath}.png")
     big_c_test = red_channel(big_c)
     big_c_red = load_image(f"{filepath}_red.png")
@@ -41,6 +54,9 @@ def red_channel_image_test(filepath: str):
 
 
 def red_channel_test():
+    """
+    Created by William Dorval(101187466)
+    """
     print("Running independent individual pixel checks")
     original = create_image(4, 1)
     set_color(original, 0, 0, create_color(107, 0, 0))
@@ -63,7 +79,9 @@ def blue_channel(image: Image) -> Image:
     """Return the blue channel copy of image.
     >>> image = load_image(choose_file()) 
     >>> blue_image = blue_channel(image)
-    >>> show(blue_image)     
+    >>> show(blue_image)
+    
+    Created by Raunaq Hoque (101180524)
     """
     new_image = copy(image)
     for x, y, (r, g, b) in image:
@@ -75,6 +93,8 @@ def blue_channel(image: Image) -> Image:
 def test_blue_channel() -> None:
     '''A test function for blue_channel.
     >>> test_blue_channel()
+    
+    Created by Raunaq Hoque (101180524)
     '''
     original = create_image(3, 1)
     set_color(original, 0, 0,  create_color(0, 0, 0))
@@ -101,10 +121,53 @@ def test_blue_channel() -> None:
 
 
 
+#GREEN CHANNEL
+def green_channel(image: Image) -> Image:
+    """Return a new image that is the same as the original image but in the green filter.
+    >>> image = load_image(choose_file())
+    >>> green_image = green_channel(image)
+    >>> show(green_image)
+    
+    Created by Chaelan Murray (101180990)
+    """
+    new_image = copy(image)
+    for x, y, (r, g, b) in image:
+        green = create_color(0, g, 0)    
+        set_color(new_image, x, y, green)       
+    return new_image
+
+#GREEN CHANNEL TESTING
+def test_green_channel() -> None:
+    """ Test the green_channel function.
+    >>> test_green_channel()
+    
+    Created by Chaelan Murray (101180990)
+    """
+    original = create_image(5, 1) 
+    set_color(original, 0, 0,  create_color(0, 0, 0))
+    set_color(original, 1, 0,  create_color(0, 1, 0))
+    set_color(original, 2, 0,  create_color(127, 0, 127))
+    set_color(original, 3, 0,  create_color(125, 73, 224))
+    set_color(original, 4, 0,  create_color(7, 255, 7)) 
+  
+    expected = create_image(5, 1) 
+    set_color(expected, 0, 0,  create_color(0, 0, 0))
+    set_color(expected, 1, 0,  create_color(0, 1, 0))
+    set_color(expected, 2, 0,  create_color(0, 0, 0))
+    set_color(expected, 3, 0,  create_color(0, 73, 0))
+    set_color(expected, 4, 0,  create_color(0, 255, 0)) 
+  
+    green_image = green_channel (original)
+    
+    for x, y, col in green_image:
+        check_equal('Checking pixel @(' + str(x) + ', ' + str(y) + ')', col, get_color(expected, x, y))
+    
+
+
 #COMBINE FUNCTION
 def combine(red_img: Image, green_img: Image, blue_img: Image) -> Image:
     """ 
-    This function will return the combinattion of 3 images which are in color
+    This function will return the combination of 3 images which are in color
     channels of red,green and blue. This will return a combined image which is
     fully colored.
     
@@ -114,7 +177,7 @@ def combine(red_img: Image, green_img: Image, blue_img: Image) -> Image:
     >>> combination = combine(red, green, blue)
     >>> show(combination)
     
-    Created by Mohammad Saud(101195172)
+    Created by Mohammad Saud
     """
     
     final_height = get_height(red_img)
@@ -140,18 +203,21 @@ def combine(red_img: Image, green_img: Image, blue_img: Image) -> Image:
 #COMBINE TESTING FUNCTION
 def test_combine() -> None:
     """
-    The function will create 3 images that are red, green and blue. Then use the 
-    combine filter to check whether the image is the same as the expected
+    The function will test whether the combine function works, no images will be 
+    loaded, all tests are done internally. A message will be printed, whether 
+    test was passed or failed at the location.
     
     >>>test_combine()
     
-    Created by Mohammad Saud(101195172)
+    Created by Mohammad Saud
     """
     red_test = create_image(3,3, color=Color(red=255, green= 0, blue= 0))
     green_test = create_image(3,3, color=Color(red=0, green= 255, blue= 0))
     blue_test = create_image(3,3, color=Color(red=0, green= 0, blue= 255))
+    #Creating 3 images that red,green and blue
     
     expected = create_image(3,3, color=Color(red=255, green= 255, blue= 255))
+    #A white image that is expected when combining all 3 colors
     
     test_original = combine(red_test, green_test, blue_test)
     
@@ -160,28 +226,10 @@ def test_combine() -> None:
                      col, get_color(expected, x, y))    
 
 
-#MAIN SCRIPTS
-#RED SCRIPT
-
-if __name__ == "__main__":
-    red_channel_image_test("great_big_c")
-    red_channel_image_test("miss_sullivan")
-    red_channel_image_test("riveter")
-    red_channel_test()
-
-#BLUE SCRIPT
-
-#BLUE TEST CALL
-test_blue_channel()
-
-#COMBINE SCRIPT
-
-red = load_image(choose_file())
-green = load_image(choose_file())
-blue = load_image(choose_file())
-combination = combine(red, green, blue)
+image = load_image(choose_file())
+red = red_channel(image)
+green = green_channel(image)
+blue = blue_channel(image)
+combination = combine(red,green,blue)
 save_as(combination, 'combined-image.png')
 show(combination)
-
-#COMBINE TEST
-test_combine()
