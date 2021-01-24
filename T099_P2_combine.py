@@ -4,8 +4,8 @@ Team T099
 Members: Mohammad Saud, William Dorval, Chaelan Murray, Raunaq Hoque
 
 """
-from Cimpl import *
-from unit_testing import *
+from Cimpl import get_height, get_width, Image, create_image, get_color, Color, set_color, create_color, save_as, load_image, choose_file, show
+from unit_testing import check_equal
 
 def combine(red_img: Image, green_img: Image, blue_img: Image) -> Image:
     """ 
