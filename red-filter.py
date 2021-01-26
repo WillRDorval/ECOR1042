@@ -1,6 +1,7 @@
 from Cimpl import choose_file, load_image, copy, create_color, set_color, show, Image, get_color, create_image
 from unit_testing import check_equal
 
+
 def red_channel(image: Image) -> Image:
     """
     Creates an image containing only the red channel of the given image.
@@ -41,7 +42,7 @@ def red_channel_test():
     set_color(original, 1, 0, create_color(127, 127, 127))
     set_color(original, 2, 0, create_color(0, 127, 127))
     set_color(original, 3, 0, create_color(0, 0, 0))
-    
+
     expected = create_image(4, 1)
     set_color(expected, 0, 0, create_color(107, 0, 0))
     set_color(expected, 1, 0, create_color(127, 0, 0))
@@ -51,10 +52,16 @@ def red_channel_test():
     red = red_channel(original)
     for x, y, col in red:
         check_equal(f"checking pixel {x},{y}", col, get_color(expected, x, y))
-        
+
 
 if __name__ == "__main__":
+    """
+    These tests compare the result of the function to a copy of the image that has had
+    its red RGB channel isolated in external software. It will not work without the proper image files
+    which I can email to you or add to CUlearn if you want me to.
     red_channel_image_test("great_big_c")
     red_channel_image_test("miss_sullivan")
     red_channel_image_test("riveter")
+    """
     red_channel_test()
+    show(red_channel(load_image(choose_file())))
