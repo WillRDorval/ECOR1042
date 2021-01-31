@@ -2,24 +2,24 @@ from Cimpl import choose_file, load_image, copy, create_color, set_color,\
                   show, Image, get_color, create_image, Color
 
 def _adjust_component (r, g, b):
-    p_col = [r,g,b]
+    pixel_color = [r,g,b]
     for i in range(3):
-        if p_col[i] <= 63:
-            p_col[i] = 31
-        elif p_col[i] <= 127:
-            p_col[i] = 95
-        elif  p_col[i] <= 191:
-            p_col[i] = 159
-        elif p_col[i] <= 255:
-            p_col[i] = 223 
-        pixel = create_color(*p_col)
+        if pixel_color[i] <= 63:
+            pixel_color[i] = 31
+        elif pixel_color[i] <= 127:
+            pixel_color[i] = 95
+        elif  pixel_color[i] <= 191:
+            pixel_color[i] = 159
+        elif pixel_color[i] <= 255:
+            pixel_color[i] = 223 
+        pixel = create_color(*pixel_color)
     return pixel    
 
 def posterize(image: Image) -> Image:
-    """Return the blue channel copy of image.
+    """Return the posterized copy of image.
     >>> image = load_image(choose_file()) 
-    >>> blue_image = posterize(image)
-    >>> show(blue_image)     
+    >>> posterize_image=posterize(image)
+    >>> show(posterize_image)    
     """
     new_image = copy(image)
     for x, y, (r,g,b) in image:
@@ -29,5 +29,5 @@ def posterize(image: Image) -> Image:
     return new_image
 
 image=load_image(choose_file())
-yes=posterize(image)
-show(yes)
+posterize_image=posterize(image)
+show(posterize_image)
