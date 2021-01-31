@@ -3,8 +3,8 @@ from Cimpl import *
 
 def extreme_contrast(image: Image) -> Image:
     """ Returns a copy of an image with the contrast between the pixels being maximized. 
-    >>> orignial_image = load_image(choose_file())
-    >>> extreme_image = extreme_contrast(orignial_image)
+    >>> original_image = load_image(choose_file())
+    >>> extreme_image = extreme_contrast(original_image)
     >>> show(extreme_image)
     """
     new_image = copy(image)
