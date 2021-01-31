@@ -1,4 +1,11 @@
-from Cimpl import get_height, get_width, Image, create_image, get_color, Color, set_color, create_color, save_as, load_image, choose_file, show, copy
+"""
+T099 
+
+Code made by Mohammad Saud
+"""
+
+from Cimpl import get_height, get_width, Image, create_image, get_color, Color,\
+                  set_color, create_color, save_as, load_image, choose_file, show, copy
 from unit_testing import check_equal
 
 
@@ -11,6 +18,7 @@ def color_names(color: str) -> tuple:
     >>> a = color_names("grey")
     >>> print(a)
     ... (128,128,128)
+    
     Made by Mohammad Saud 101195172
     """
     color_str = ("black","white","blood","green","blue","lemon","cyan","magenta","gray")
@@ -30,6 +38,7 @@ def three_tone(org_img: Image, tone_1: str, tone_2: str, tone_3: str) -> Image:
     >>> new = three_tone(image, "black", "blood", "white")
     >>> show(new)
     
+    Made by Mohammad Saud 101195172
     """
     
     r1,g1,b1 = color_names(tone_1)
