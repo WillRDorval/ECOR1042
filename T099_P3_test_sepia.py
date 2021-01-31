@@ -1,4 +1,4 @@
-from Cimpl import set_color, create_image, create_color
+from Cimpl import set_color, create_image, create_color, get_color
 from unit_testing import check_equal
 from T099_P3_sepia import sepia
 
@@ -21,10 +21,12 @@ def test_sepia() -> None:
     set_color(expected, 3, 0,  create_color(219.65, 191, 162.35))
     set_color(expected, 4, 0,  create_color(255, 255, 237.15)) 
   
-    sepia_image = sepia_filter (original)
+    sepia_image = sepia(original)
     
-    for x, y, col in green_image:
+    for x, y, col in expected:
         check_equal('Checking pixel @(' + str(x) + ', ' + str(y) + ')', col, get_color(expected, x, y))    
-        
+
+
 # Main script 
-test_sepia()
+if __name__ == '__main__':
+    test_sepia()
