@@ -7,6 +7,7 @@ Section: D
 
 from Cimpl import choose_file, load_image, copy, create_color, set_color, show, Image, get_color, create_image
 from unit_testing import check_equal
+from T099_P3_filter_extreme import extreme_contrast
 
 
 def test_contrast():
@@ -40,7 +41,7 @@ def test_contrast():
     set_color(original, 26, 0, create_color(160, 160, 160))
     set_color(original, 27, 0, create_color(255, 255, 255))
 
-    contrasted = None  # to be replaced with contrast filter call
+    contrasted = extreme_contrast(original)
 
     expected = create_image(28, 1)
     set_color(expected, 0, 0, create_color(0, 0, 0))

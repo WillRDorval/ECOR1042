@@ -1,4 +1,7 @@
+from Cimpl import set_color, create_image, create_color
 from unit_testing import check_equal
+from T099_P3_sepia import sepia
+
 
 def test_sepia() -> None:
     """ Test the sepia filter 
