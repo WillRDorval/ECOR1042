@@ -90,7 +90,8 @@ def detect_edges(input_image: Image, tolerance: int) -> Image:
                 else:
                     val = 255 * ((b_diff - gap) / (1 - gap))
                 """
-                val = 255 - round(255*(0.299 * r_diff + 0.587 * g_diff + 0.114 * b_diff))
+                diff = (0.299 * r_diff + 0.587 * g_diff + 0.114 * b_diff)
+                val = 255 - round(255 * (math.sqrt(diff)/(1 + pow(math.e, -8*(diff-gap)))))
                 result.set_color(x, y, create_color(val, val, val))
     return result
 
