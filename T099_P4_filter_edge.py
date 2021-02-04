@@ -120,6 +120,6 @@ def cleanup_edges(input_image: Image) -> Image:
 """
 
 if __name__ == "__main__":
-    image = detect_edges(load_image(choose_file()), 50)
+    image = detect_edges(load_image(choose_file()), 30)
     show(image)
     save_as(image)
