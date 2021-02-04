@@ -26,21 +26,21 @@ def detect_edges(input_image: Image, tolerance: int) -> Image:
     for x in range(input_image.get_width()):
         for y in range(input_image.get_height()):
             try:
-                r_diff = abs(orig := input_image.get_color(x, y)[0] - (new := input_image.get_color(x, y - 1)[0]))
+                r_diff = abs((orig := input_image.get_color(x, y)[0]**2) - (new := input_image.get_color(x, y - 1)[0]**2))
                 if new == 0 == orig:
                     pass
                 elif new > orig:
                     r_diff = r_diff/new
                 else:
                     r_diff = r_diff/orig
-                g_diff = abs(orig := input_image.get_color(x, y)[1] - (new := input_image.get_color(x, y - 1)[1]))
+                g_diff = abs((orig := input_image.get_color(x, y)[1]**2) - (new := input_image.get_color(x, y - 1)[1]**2))
                 if new == 0 == orig:
                     pass
                 elif new > orig:
                     g_diff = g_diff/new
                 else:
                     g_diff = g_diff/orig
-                b_diff = abs(orig := input_image.get_color(x, y)[2] - (new := input_image.get_color(x, y - 1)[2]))
+                b_diff = abs((orig := input_image.get_color(x, y)[2]**2) - (new := input_image.get_color(x, y - 1)[2]**2))
                 if new == 0 == orig:
                     pass
                 elif new > orig:
@@ -48,7 +48,7 @@ def detect_edges(input_image: Image, tolerance: int) -> Image:
                 else:
                     b_diff = b_diff/orig
 
-                r_side = abs(orig := input_image.get_color(x, y)[0] - (new := input_image.get_color(x-1, y)[0]))
+                r_side = abs((orig := input_image.get_color(x, y)[0]**2) - (new := input_image.get_color(x-1, y)[0]**2))
                 if new == 0 == orig:
                     pass
                 elif new > orig:
@@ -56,7 +56,7 @@ def detect_edges(input_image: Image, tolerance: int) -> Image:
                 else:
                     r_side = r_side/orig
 
-                g_side = abs(orig := input_image.get_color(x, y)[1] - (new := input_image.get_color(x-1, y)[1]))
+                g_side = abs((orig := input_image.get_color(x, y)[1]**2) - (new := input_image.get_color(x-1, y)[1]**2))
                 if new == 0 == orig:
                     pass
                 elif new > orig:
@@ -64,7 +64,7 @@ def detect_edges(input_image: Image, tolerance: int) -> Image:
                 else:
                     g_side = g_side/orig
 
-                b_side = abs(orig := input_image.get_color(x, y)[2] - (new := input_image.get_color(x-1, y)[2]))
+                b_side = abs((orig := input_image.get_color(x, y)[2]**2) - (new := input_image.get_color(x-1, y)[2]**2))
                 if new == 0 == orig:
                     pass
                 elif new > orig:
@@ -83,15 +83,15 @@ def detect_edges(input_image: Image, tolerance: int) -> Image:
                 pass
 
             else:
-                if r_diff > g_diff and r_diff > b_diff:
+                """if r_diff > g_diff and r_diff > b_diff:
                     val = 255 * ((r_diff - gap) / (1 - gap))
                 elif g_diff > b_diff:
                     val = 255 * ((g_diff - gap) / (1 - gap))
                 else:
                     val = 255 * ((b_diff - gap) / (1 - gap))
-
-                if val >= gap:
-                    result.set_color(x, y, create_color(val, val, val))
+                """
+                val = 255 - round(255*(0.299 * r_diff + 0.587 * g_diff + 0.114 * b_diff))
+                result.set_color(x, y, create_color(val, val, val))
     return result
 
 
@@ -120,5 +120,6 @@ def cleanup_edges(input_image: Image) -> Image:
 """
 
 if __name__ == "__main__":
-    image = detect_edges(load_image(choose_file()), 20)
+    image = detect_edges(load_image(choose_file()), 50)
     show(image)
+    save_as(image)
