@@ -28,7 +28,7 @@ def detect_edges(input_image: Image, threshold: int) -> Image:
     return result
 
 
-def reaL_detect_edges(input_image: Image, tolerance: int) -> Image:
+def real_detect_edges(input_image: Image, tolerance: int) -> Image:
     if 100 < tolerance < 0:
         raise ValueError("tolerance must be a percentage form 0 to 100")
 
@@ -101,6 +101,6 @@ def reaL_detect_edges(input_image: Image, tolerance: int) -> Image:
 
 
 if __name__ == "__main__":
-    image = detect_edges(load_image(choose_file()), 40)
+    image = detect_edges(load_image(choose_file()), 10)
     show(image)
     save_as(image)
