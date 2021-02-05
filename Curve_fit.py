@@ -8,7 +8,8 @@ from Cimpl import get_height, get_width, Image, create_image, get_color, Color,\
                   set_color, create_color, save_as, load_image, choose_file, \
                   show, copy
 from unit_testing import check_equal
-import numpy as np 
+import numpy as np
+import typing
 
 def color_names(color: str) -> tuple:
     """
@@ -31,6 +32,21 @@ def color_names(color: str) -> tuple:
             return color_values[name]
 
 def _regression(points: list) -> list:
+    """
+    Finds the coefficients of the quadratic regression curve. Its argument is a 
+    list of x,y and coordinate pairs. 
+    
+    >>>points = [[2,20],[3,10],[4,30],[5,60]]
+    >>>_regression(points)
+    ...[10.0,-56.0,91.0]
+    
+    >>>points = [[1,1],[2,5],[3,8],[4,3]]
+    >>>_regression(points)
+    ...[-2.25,12.15,-9.25]
+    
+    Made by Mohammad Saud 101195172
+    Reviewed and improved by William Dorval
+    """
     degree = 2
     x_sums = []
     for i in range(degree*2 + 1):
@@ -53,14 +69,28 @@ def _regression(points: list) -> list:
     a_np = np.array(a)
     b_np = np.array(b)
     x = np.linalg.solve(a, b)
-
+    
+    coeff_list = []
     for i in x:
             coeff_list.append(i)
     return coeff_list
         
 
 def _interpolation(point_set: list) -> list:
+    """
+    Find the linear interpolation fitting coefficients or quadratic fitting 
+    coefficients, depending on the number of points given. 
     
+    >>>points = [[2,30],[30,100]]
+    >>>_interpolation(points)
+    ...[2.5,25]
+    
+    >>>points = [[2,10],[20,30],[120,60]
+    >>>_interpolation(points)
+    ...[-0.0068738229755178895, 1.2623352165725046, 7.502824858757061]
+    
+    Made by Mohammad Saud 101195172
+    """
     if len(point_set) == 2: #Linear Interpolation
         y2 = (point_set[1])[1]
         y1 = (point_set[0])[1]
@@ -91,9 +121,47 @@ def _interpolation(point_set: list) -> list:
     
     else:
         pass
-        
-def draw_curve(img: Image, color: str) -> Image:
+
+def _image_border_finding(size: typing.Tuple[int, int], coeffs: typing.List[float]) -> \
+        typing.List[typing.Tuple[int, int]]:
+    degrees = []
+    for i in range(len(coeffs)-1, -1, -1):
+        degrees.append(i)
+
+    x_intercepts = []
+    drawing = False
+    for x in range(size[0]):
+        y_val = 0
+        for j in range(len(coeffs)):
+            y_val += (x**degrees[j]) * coeffs[j]
+
+        if (y_val > size[1] or y_val < 0) and drawing:
+            x_intercepts.append((x-1, previous))
+            drawing = False
+        elif (size[1] > y_val > 0) and not drawing:
+            x_intercepts.append((x, y_val))
+            drawing = True
+        previous = y_val
+
+    results = []
+    for pt in x_intercepts:
+        results.append(pt)
     
+    results.sort(key=lambda point: point[0])
+
+    return results
+
+def draw_curve(img: Image, color: str) -> Image:
+    """
+    Takes an image and a color as its arguments. The function then asks for a 
+    number of points and draws a curve on the image using the specified color.
+    
+    >>>img = load_image(choose_file())
+    >>>show(draw_curve(img, "magenta"))
+    
+    Made by Mohammad Saud 101195172
+    Reviewed and improved by William Dorval
+    """
     
     curve_image = copy(img)
     
@@ -125,44 +193,49 @@ def draw_curve(img: Image, color: str) -> Image:
 
     all_points.sort()
     
-    if len(all_points) <= 3:
+    if point_num <= 3:
         coeff = _interpolation(all_points)
     else:
         coeff = _regression(all_points)
     
-    for x, y, (r,g,b) in curve_image:
+    for x in range(curve_image_width):
         
-        x1 = x + 1
-        if len(all_points) == 2:
+        
+        if point_num == 2:
             y_pnt = ((x)*(coeff[0])) + coeff[1]
         else:
             y_pnt = (((x)**2)*coeff[0]) + ((x)*(coeff[1])) + coeff[2]
         
+        border_points = _image_border_finding((curve_image_width,\
+                                              curve_image_height),coeff)
        
         
-        if (y_pnt > 0) and (y_pnt < curve_image_height):
-            set_color(curve_image, x, y_pnt, pix_color)
-        else: 
-            pass
-        if ((x-1) >= 0) and ((y_pnt-1) >= 0):
-            set_color(curve_image, (x-1), (y_pnt-1), pix_color)
-        else: 
-            pass
-        if (x-2 >= 0) and (y_pnt-2 >= 0):
-            set_color(curve_image, x-2, y_pnt-2, pix_color)
+        if (y_pnt >= 0) and ((y_pnt < curve_image_height)):
+            set_color(curve_image, x, y_pnt, pix_color)    
         else: 
             pass        
-        if (x+1 < curve_image_width) and (y_pnt + 1 < curve_image_height):
-            set_color(curve_image, x+1, y_pnt+1, pix_color)
+        """
+        if (x+1< curve_image_width) and ((y_pnt +1 < curve_image_height) and (y_pnt + 1 >= 0)):
+            set_color(curve_image, x+1, y_pnt+1, pix_color)    
         else: 
-            pass 
-        if (x+2 < curve_image_width) and (y_pnt + 2 < curve_image_height):
-            set_color(curve_image, x+2, y_pnt+2, pix_color)
+            pass
+        if (x+1< curve_image_width) and ((y_pnt +1 < curve_image_height) and (y_pnt + 1 >= 0)):
+            set_color(curve_image, x+1, y_pnt+1, pix_color)    
         else: 
-            pass         
-        
+            pass
+        if (x-1 >= 0) and ((y_pnt -1 < curve_image_height) and (y_pnt - 1 >= 0)):
+            set_color(curve_image, x-1, y_pnt-1, pix_color)
+        else: 
+            pass
+        if (x-2 >= 0) and ((y_pnt -2 < curve_image_height) and (y_pnt - 2 >= 0)):
+            set_color(curve_image, x-2, y_pnt-2, pix_color)
+        else: 
+            pass
+        """
     return curve_image
+
 
 
 img = load_image(choose_file())
 show(draw_curve(img, "magenta"))
+
