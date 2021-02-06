@@ -101,6 +101,6 @@ def real_detect_edges(input_image: Image, tolerance: int) -> Image:
 
 
 if __name__ == "__main__":
-    image = detect_edges(load_image(choose_file()), 10)
+    image = real_detect_edges(load_image(choose_file()), 10)
     show(image)
     save_as(image)
