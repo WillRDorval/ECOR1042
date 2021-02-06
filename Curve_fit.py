@@ -207,7 +207,10 @@ def draw_curve(img: Image, color: str) -> Image:
 
     drawing = False
     leaving = False
-    previous = int((((-1) ** 2) * coeff[0]) + ((-1) * (coeff[1])) + coeff[2])
+    if point_num == 2:
+        previous = int(((-1) * (coeff[0])) + coeff[1])
+    else:
+        previous = int((((-1) ** 2) * coeff[0]) + ((-1) * (coeff[1])) + coeff[2])
     for x in range(curve_image_width):
 
         if point_num == 2:
