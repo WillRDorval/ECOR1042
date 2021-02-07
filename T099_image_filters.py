@@ -1,10 +1,10 @@
 """
 Submission by T099
 
-William Dorval 
-Raunaq Hoqie
-Chaelan Murray
-Mohammad Saud
+William Dorval 101187466
+Raunaq Hoqie 101180524
+Chaelan Murray 101180990
+Mohammad Saud 101195172
 
 Submitted on: 2021-02-07
 """
@@ -23,7 +23,7 @@ def extreme_contrast(input_image: Image) -> Image:
     >>> original_image = load_image(choose_file())
     >>> extreme_image = extreme_contrast(original_image)
     >>> show(extreme_image)
-    By Chaelan Murray
+    By Chaelan Murray 101180990
     """
     new_image = copy(input_image)
     for x, y, (r, g, b) in input_image:
@@ -251,6 +251,12 @@ def _interpolation(point_set: typing.List[typing.Tuple[int, int]]) -> typing.Lis
 # Helper function for draw_curve
 def _image_border_finding(size: typing.Tuple[int, int], coeffs: typing.List[float]) -> \
         typing.List[typing.Tuple[int, int]]:
+    """
+    Returns a list of x,y coordinate pairs in tuples that cross the border of 
+    the images given the coefficients of the curve.
+    
+    Made by William Dorval 101187466
+    """
     degrees = []
     for i in range(len(coeffs) - 1, -1, -1):
         degrees.append(i)
@@ -290,7 +296,7 @@ def draw_curve(img: Image, color: str, points: typing.List[typing.Tuple[int, int
     >>>show(draw_curve(loaded_image, "magenta"))
     
     Made by Mohammad Saud 101195172
-    Reviewed and improved by William Dorval
+    Reviewed and improved by William Dorval 101187466
     """
 
     curve_image = copy(img)
@@ -422,13 +428,13 @@ def flip_horizontal(image: Image) -> Image:
     new_image = copy(image)
     width = get_width(image)
     height = get_height(image)
-    for y in range(height):
-        for x in range(width // 2):
-            col_left = get_color(image, x, y)
-            col_right = get_color(image, -x, y)
-            set_color(new_image, -x, y, col_left)
-            set_color(new_image, x, y, col_right)
-    return new_image
+    for y in range(height): #goes through all the y pixels
+        for x in range(width//2): #goes through the x pixels until the halfway point
+            col_left = get_color(image, x, y) #gets pixel colors on left handside of the image
+            col_right = get_color(image, (width-1-x), y) #gets pixel colors on right handside of the image
+            set_color(new_image, (width-1-x), y, col_left) #replace the pixels from the left onto the right
+            set_color(new_image, x, y, col_right) #replace the pixels from the right onto the left
+    return new_image #return the horizontally flipped image
 
 
 # Flip_vertical filter
@@ -438,7 +444,7 @@ def flip_vertical(image: Image) -> Image:
     >>> extreme_image = flip_vertical(original_image)
     >>> show(flip_vertical)
 
-    By Chaelan Murray
+    By Chaelan Murray 101180990
     """
     width = get_width(image)
     height = get_height(image)
