@@ -78,7 +78,7 @@ def _regression(points: typing.List[typing.Tuple[int, int]]) -> typing.List[int]
     return coeff_list
 
 
-def _interpolation(point_set: typing.List[typing.Tuple[int, int]]) -> typing.List[int]:
+def _interpolation(point_set: typing.List[typing.Tuple[int, int]]) -> typing.List[float]:
     """
     Find the linear interpolation fitting coefficients or quadratic fitting 
     coefficients, depending on the number of points given. 
@@ -139,10 +139,10 @@ def _image_border_finding(size: typing.Tuple[int, int], coeffs: typing.List[floa
             y_val += (x ** degrees[j]) * coeffs[j]
 
         y_val = int(y_val)
-        if (y_val > size[1] or y_val < 0) and drawing:
+        if (y_val > size[1] or y_val <= 0) and drawing:
             x_intercepts.append((x - 1, previous))
             drawing = False
-        elif (size[1] > y_val > 0) and not drawing:
+        elif (size[1] > y_val >= 0) and not drawing:
             x_intercepts.append((x, y_val))
             drawing = True
         previous = y_val
@@ -156,7 +156,7 @@ def _image_border_finding(size: typing.Tuple[int, int], coeffs: typing.List[floa
     return results
 
 
-def draw_curve(img: Image, color: str) -> Image:
+def draw_curve(img: Image, color: str, points: typing.List[typing.Tuple[int, int]] = None) -> Image:
     """
     Takes an image and a color as its arguments. The function then asks for a 
     number of points and draws a curve on the image using the specified color.
@@ -174,26 +174,29 @@ def draw_curve(img: Image, color: str) -> Image:
     pix_color = create_color(r1, g1, b1)
 
     all_points = []
-    point_num = 0
-    while True:
-        point_num = int(input("How many points would you like to enter? "))
-        if point_num < 2:
-            print("There must be atleast 2 points")
-        else:
-            break
-
     curve_image_height = get_height(curve_image)
     curve_image_width = get_width(curve_image)
+    if points is None:
+        point_num = 0
+        while True:
+            point_num = int(input("How many points would you like to enter? "))
+            if point_num < 2:
+                print("There must be atleast 2 points")
+            else:
+                break
 
-    print("The image maximum x value is " + str(curve_image_width))
-    print("The image maximum y value is " + str(curve_image_height))
+        print("The image maximum x value is " + str(curve_image_width))
+        print("The image maximum y value is " + str(curve_image_height))
 
-    for i in range(1, point_num + 1):
-        point = []
-        x_cor = int(input("Please input x coordinate for point " + str(i) + ": "))
-        y_cor = int(input("Please input y coordinate for point " + str(i) + ": "))
-        point = (x_cor, y_cor)
-        all_points.append(point)
+        for i in range(1, point_num + 1):
+            point = []
+            x_cor = int(input("Please input x coordinate for point " + str(i) + ": "))
+            y_cor = int(input("Please input y coordinate for point " + str(i) + ": "))
+            point = (x_cor, y_cor)
+            all_points.append(point)
+    else:
+        all_points = points
+        point_num = len(points)
 
     all_points.sort()
 
@@ -202,6 +205,7 @@ def draw_curve(img: Image, color: str) -> Image:
     else:
         coeff = _regression(all_points)
 
+    print(coeff)
     border_points = _image_border_finding((curve_image_width, curve_image_height), coeff)
     print(border_points)
 
@@ -256,6 +260,6 @@ def draw_curve(img: Image, color: str) -> Image:
 
 
 if __name__ == '__main__':
-    img = load_image(choose_file())
+    img = Image(width=50, height=50)
     show(new_img := draw_curve(img, "magenta"))
     save_as(new_img)
