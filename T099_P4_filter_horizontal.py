@@ -17,8 +17,8 @@ def flip_horizontal(image: Image) -> Image:
     for y in range(height): #goes through all the y pixels
         for x in range(width//2): #goes through the x pixels until the halfway point
             col_left = get_color(image, x, y) #gets pixel colors on left handside of the image
-            col_right = get_color(image, -x, y) #gets pixel colors on right handside of the image
-            set_color(new_image, -x, y, col_left) #replace the pixels from the left onto the right
+            col_right = get_color(image, (width-1-x), y) #gets pixel colors on right handside of the image
+            set_color(new_image, (width-1-x), y, col_left) #replace the pixels from the left onto the right
             set_color(new_image, x, y, col_right) #replace the pixels from the right onto the left
     return new_image #return the horizontally flipped image
 
