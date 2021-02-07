@@ -1,3 +1,6 @@
+# Name: Chaelan Murray
+# Student number: 101180990
+
 from Cimpl import set_color, create_image, create_color, get_color
 from unit_testing import check_equal
 from T099_P3_sepia import sepia
