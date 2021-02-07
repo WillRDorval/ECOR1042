@@ -126,15 +126,7 @@ def _interpolation(point_set: typing.List[typing.Tuple[int, int]]) -> typing.Lis
 
 
 def _image_border_finding(size: typing.Tuple[int, int], coeffs: typing.List[float]) -> \
-    typing.List[typing.Tuple[int, int]]:
-    """
-    Finds the points where a certain cruve will intersect the border.
-    
-    >>>_image_border_finding((image_width, image_height), coefficients)
-    
-    Made by William Dorval
-    """
-
+        typing.List[typing.Tuple[int, int]]:
     degrees = []
     for i in range(len(coeffs) - 1, -1, -1):
         degrees.append(i)
