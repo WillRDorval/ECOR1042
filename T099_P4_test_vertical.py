@@ -41,4 +41,6 @@ def test_flip_vertical() -> None:
         check_equal('Checking pixel @(' + str(x) + ', ' + str(y) + ')',
                      col, get_color(expected, x, y))
 
-test_flip_vertical()
+# Main script 
+if __name__ == '__main__':
+    test_flip_vertical()
