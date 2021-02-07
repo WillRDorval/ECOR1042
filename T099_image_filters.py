@@ -5,23 +5,27 @@ William Dorval
 Raunaq Hoqie
 Chaelan Murray
 Mohammad Saud
+
+Submitted on: 2021-02-07
 """
 
 import typing
+
 import numpy as np
+
 from Cimpl import get_height, get_width, Image, set_color, create_color, load_image, choose_file, \
-    show, copy, save_as
+    show, copy, get_color
 
 
-#Extreme Contrast 
-def extreme_contrast(image: Image) -> Image:
+# Extreme Contrast
+def extreme_contrast(input_image: Image) -> Image:
     """ Returns a copy of an image with the contrast between the pixels being maximized. 
     >>> original_image = load_image(choose_file())
     >>> extreme_image = extreme_contrast(original_image)
     >>> show(extreme_image)
     """
-    new_image = copy(image)
-    for x, y, (r, g, b) in image:
+    new_image = copy(input_image)
+    for x, y, (r, g, b) in input_image:
         col = [r, g, b]
         for t in range(3):
             if col[t] >= 128:
@@ -32,7 +36,8 @@ def extreme_contrast(image: Image) -> Image:
         set_color(new_image, x, y, extreme)
     return new_image
 
-#Color Names
+
+# Color Names
 def color_names(color: str) -> tuple:
     """
     This function will take the name of a color and returns a tuple containing 
@@ -44,119 +49,121 @@ def color_names(color: str) -> tuple:
     
     Made by Mohammad Saud 101195172
     """
-    color_str = ("black","white","blood","green","blue","lemon","cyan","magenta","gray")
-    color_values = ((0,0,0),(255,255,255),(255,0,0),(0,255,0),(0,0,255),(255,255,0),(0,255,255),(255,0,255),(128,128,128))
-    
+    color_str = ("black", "white", "blood", "green", "blue", "lemon", "cyan", "magenta", "gray")
+    color_values = (
+        (0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (0, 255, 255), (255, 0, 255),
+        (128, 128, 128))
+
     for name in range(len(color_str)):
         if color == color_str[name]:
             return color_values[name]
-            
-#Three tone filter    
+
+
+# Three tone filter
 def three_tone(org_img: Image, tone_1: str, tone_2: str, tone_3: str) -> Image:
     """
     This function will convert an image to a three tone image. The 3 tones will 
     be specified as their correct color names in lowercase.
     
-    >>> image = load_image(choose_file())
-    >>> new = three_tone(image, "black", "blood", "white")
+    >>> input_image = load_image(choose_file())
+    >>> new = three_tone(input_image, "black", "blood", "white")
     >>> show(new)
     
     Made by Mohammad Saud 101195172
     """
-    
-    r1,g1,b1 = color_names(tone_1)
-    r2,g2,b2 = color_names(tone_2)
-    r3,g3,b3 = color_names(tone_3)
-    
+
+    r1, g1, b1 = color_names(tone_1)
+    r2, g2, b2 = color_names(tone_2)
+    r3, g3, b3 = color_names(tone_3)
+
     three_tone_image = copy(org_img)
-    
-    for x, y, (r,g,b) in three_tone_image:
-        
-        brightness = ((r+g+b)/3)
-        
+
+    for x, y, (r, g, b) in three_tone_image:
+
+        brightness = ((r + g + b) / 3)
+
         if brightness <= 84:
-            pix_color = create_color(r1,g1,b1)
+            pix_color = create_color(r1, g1, b1)
             set_color(three_tone_image, x, y, pix_color)
         elif (brightness >= 85) and (brightness <= 170):
-            pix_color = create_color(r2,g2,b2)
+            pix_color = create_color(r2, g2, b2)
             set_color(three_tone_image, x, y, pix_color)
         elif (brightness >= 171) and (brightness <= 255):
-            pix_color = create_color(r3,g3,b3)
-            set_color(three_tone_image, x, y, pix_color)            
+            pix_color = create_color(r3, g3, b3)
+            set_color(three_tone_image, x, y, pix_color)
 
     return three_tone_image
 
-#Helper function for posterize
-def _adjust_component (r, g, b):
+
+# Helper function for posterize
+def _adjust_component(r, g, b):
     """Return the midpoint of the rgb component from the 4 quadrants 
     (0..63, 64..127, 128..191, and 192..255).
     >>> _adjust_component (60, 120, 190) 
     >>> (31, 95, 159)
     By Raunaq Hoque 101180524
-    """    
-    pixel_color = [r,g,b]
+    """
+    pixel_color = [r, g, b]
     for i in range(3):
         if pixel_color[i] <= 63:
             pixel_color[i] = 31
         elif pixel_color[i] <= 127:
             pixel_color[i] = 95
-        elif  pixel_color[i] <= 191:
+        elif pixel_color[i] <= 191:
             pixel_color[i] = 159
         elif pixel_color[i] <= 255:
-            pixel_color[i] = 223 
+            pixel_color[i] = 223
         pixel = create_color(*pixel_color)
-    return pixel    
+    return pixel
 
-#Posterize
-def posterize(image: Image) -> Image:
+
+# Posterize
+def posterize(input_image: Image) -> Image:
     """Return the posterized copy of image.
-    >>> image = load_image(choose_file()) 
-    >>> posterize_image=posterize(image)
+    >>> loaded_image = load_image(choose_file())
+    >>> posterize_image=posterize(loaded_image)
     >>> show(posterize_image)
     By Raunaq Hoque 101180524
     """
-    new_image = copy(image)
-    for x, y, (r,g,b) in image:
-    
-        color = _adjust_component (r,g,b)
+    new_image = copy(input_image)
+    for x, y, (r, g, b) in input_image:
+        color = _adjust_component(r, g, b)
         set_color(new_image, x, y, color)
     return new_image
 
-image=load_image(choose_file())
-posterize_image=posterize(image)
-show(posterize_image)
 
-#Helper function for sepia
-def accurate_grayscale(input_image: Image) -> Image:
-    result = copy(input_image)
-    for x, y, (r, g, b) in result:
-        gray = 0.299*r + 0.587*g + 0.114*b
-        set_color(result, x, y, create_color(gray, gray, gray))
-    return result
-
-#Sepia filter
+# Sepia filter
 def sepia(input_image: Image) -> Image:
+    """
+    Returns a sepia tone copy of the image
+    >>> loaded_image = load_image(choose_file())
+    >>> sepia_image = sepia(loaded_image)
+    >>> show(sepia_image)
+
+    By William Dorval 101187466
+    """
     new_image = copy(grayscale(input_image))
     for x, y, (r, g, b) in new_image:
         if r < 63:
-            set_color(new_image, x, y, create_color(1.1*r, g, 0.9*b))
+            set_color(new_image, x, y, create_color(1.1 * r, g, 0.9 * b))
         elif r <= 191:
-            set_color(new_image, x, y, create_color(1.15*r, g, 0.85*b))
+            set_color(new_image, x, y, create_color(1.15 * r, g, 0.85 * b))
         else:
-            set_color(new_image, x, y, create_color(1.08*r, g, 0.93*b))
+            set_color(new_image, x, y, create_color(1.08 * r, g, 0.93 * b))
     return new_image
 
-#Helper function for draw_curve
+
+# Helper function for draw_curve
 def _regression(points: typing.List[typing.Tuple[int, int]]) -> typing.List[int]:
     """
     Finds the coefficients of the quadratic regression curve. Its argument is a 
     list of x,y and coordinate pairs. 
     
-    >>>ex_points = [[2,20],[3,10],[4,30],[5,60]]
+    >>>ex_points = [(2,20),(3,10),(4,30),(5,60)]
     >>>_regression(ex_points)
     ...[10.0,-56.0,91.0]
     
-    >>>ex_points = [[1,1],[2,5],[3,8],[4,3]]
+    >>>ex_points = [(1,1),(2,5),(3,8),(4,3)]
     >>>_regression(ex_points)
     ...[-2.25,12.15,-9.25]
     
@@ -191,17 +198,18 @@ def _regression(points: typing.List[typing.Tuple[int, int]]) -> typing.List[int]
         coeff_list.append(i)
     return coeff_list
 
-#Helper function for draw_curve
+
+# Helper function for draw_curve
 def _interpolation(point_set: typing.List[typing.Tuple[int, int]]) -> typing.List[float]:
     """
     Find the linear interpolation fitting coefficients or quadratic fitting 
     coefficients, depending on the number of points given. 
     
-    >>>points = [[2,30],[30,100]]
+    >>>points = [(2,30),(30,100)]
     >>>_interpolation(points)
     ...[2.5,25]
     
-    >>>points = [[2,10],[20,30],[120,60]
+    >>>points = [(2,10),(20,30),(120,60)]
     >>>_interpolation(points)
     ...[-0.0068738229755178895, 1.2623352165725046, 7.502824858757061]
     
@@ -238,7 +246,8 @@ def _interpolation(point_set: typing.List[typing.Tuple[int, int]]) -> typing.Lis
     else:
         pass
 
-#Helper function for draw_curve
+
+# Helper function for draw_curve
 def _image_border_finding(size: typing.Tuple[int, int], coeffs: typing.List[float]) -> \
         typing.List[typing.Tuple[int, int]]:
     degrees = []
@@ -269,14 +278,15 @@ def _image_border_finding(size: typing.Tuple[int, int], coeffs: typing.List[floa
 
     return results
 
-#Draw_curve filter
+
+# Draw_curve filter
 def draw_curve(img: Image, color: str, points: typing.List[typing.Tuple[int, int]] = None) -> Image:
     """
     Takes an image and a color as its arguments. The function then asks for a 
     number of points and draws a curve on the image using the specified color.
     
-    >>>img = load_image(choose_file())
-    >>>show(draw_curve(img, "magenta"))
+    >>>loaded_image = load_image(choose_file())
+    >>>show(draw_curve(loaded_image, "magenta"))
     
     Made by Mohammad Saud 101195172
     Reviewed and improved by William Dorval
@@ -291,7 +301,6 @@ def draw_curve(img: Image, color: str, points: typing.List[typing.Tuple[int, int
     curve_image_height = get_height(curve_image)
     curve_image_width = get_width(curve_image)
     if points is None:
-        point_num = 0
         while True:
             point_num = int(input("How many points would you like to enter? "))
             if point_num < 2:
@@ -303,7 +312,6 @@ def draw_curve(img: Image, color: str, points: typing.List[typing.Tuple[int, int
         print("The image maximum y value is " + str(curve_image_height))
 
         for i in range(1, point_num + 1):
-            point = []
             x_cor = int(input("Please input x coordinate for point " + str(i) + ": "))
             y_cor = int(input("Please input y coordinate for point " + str(i) + ": "))
             point = (x_cor, y_cor)
@@ -348,18 +356,18 @@ def draw_curve(img: Image, color: str, points: typing.List[typing.Tuple[int, int
 
         if drawing:
             for i in range(-2, 3):
-                if 0 <= y_pnt+i < curve_image_height:
-                    set_color(curve_image, x, y_pnt+i, pix_color)
+                if 0 <= y_pnt + i < curve_image_height:
+                    set_color(curve_image, x, y_pnt + i, pix_color)
 
         if drawing and direction != 0:
-            for i in range(y_pnt+direction, previous-direction, direction):
+            for i in range(y_pnt + direction, previous - direction, direction):
                 if 0 <= i < curve_image_height:
                     set_color(curve_image, x, i, pix_color)
 
         if leaving:
-            y = y_pnt - (2*direction)
+            y = y_pnt - (2 * direction)
             while 0 <= y < curve_image_height:
-                set_color(curve_image, x+1, y, pix_color)
+                set_color(curve_image, x + 1, y, pix_color)
                 y -= direction
             drawing = False
 
@@ -372,26 +380,37 @@ def draw_curve(img: Image, color: str, points: typing.List[typing.Tuple[int, int
 
     return curve_image
 
-#Helper function for detect_edges
+
+# Helper function for detect_edges
 def grayscale(input_image: Image) -> Image:
     result = copy(input_image)
     for x, y, (r, g, b) in input_image:
-        gray = (r+g+b)/3
+        gray = (r + g + b) / 3
         result.set_color(x, y, create_color(gray, gray, gray))
 
     return result
 
-#Detect edges filter
+
+# Detect edges filter
 def detect_edges(input_image: Image, threshold: int) -> Image:
+    """
+    Creates a new image with black on the edges and white everywhere else
+    >>> loaded_image = load_image(choose_file())
+    >>> edge_image = detect_edges(loaded_image, 20)
+    >>> show(edge_image)
+
+    Made by William Dorval 101187466
+    """
     brightness = grayscale(input_image)
     result = Image(width=input_image.get_width(), height=input_image.get_height())
     for x, y, (r, _, _) in brightness:
-        if abs(r - brightness.get_color(x, y-1)[0]) > threshold:
+        if abs(r - brightness.get_color(x, y - 1)[0]) > threshold:
             result.set_color(x, y, create_color(0, 0, 0))
 
     return result
 
-#Flip_horizontal filter
+
+# Flip_horizontal filter
 def flip_horizontal(image: Image) -> Image:
     """Return the flipped horizontal copy of the image.
     >>> image = load_image(choose_file()) 
@@ -403,19 +422,22 @@ def flip_horizontal(image: Image) -> Image:
     width = get_width(image)
     height = get_height(image)
     for y in range(height):
-        for x in range(width//2):
+        for x in range(width // 2):
             col_left = get_color(image, x, y)
             col_right = get_color(image, -x, y)
             set_color(new_image, -x, y, col_left)
-            set_color(new_image, x, y, col_right) 
+            set_color(new_image, x, y, col_right)
     return new_image
 
-#Flip_vertical filter
+
+# Flip_vertical filter
 def flip_vertical(image: Image) -> Image:
     """  Returns a copy of the image, flipped along the middle horizontal line.
-    >>> orignial_image = load_image(choose_file())
-    >>> extreme_image = flip_vertical(orignial_image)
+    >>> original_image = load_image(choose_file())
+    >>> extreme_image = flip_vertical(original_image)
     >>> show(flip_vertical)
+
+    By Chaelan Murray
     """
     width = get_width(image)
     height = get_height(image)
@@ -425,5 +447,5 @@ def flip_vertical(image: Image) -> Image:
             top = get_color(image, x, y)
             bottom = get_color(image, x, (height - 1 - y))
             set_color(new_image, x, (height - 1 - y), top)
-            set_color(new_image, x, y, bottom)   
+            set_color(new_image, x, y, bottom)
     return new_image
