@@ -1,3 +1,6 @@
+# Name: Chaelan Murray
+# Student number: 101180990
+
 from Cimpl import *
 from unit_testing import check_equal
 
