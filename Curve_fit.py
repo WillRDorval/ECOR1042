@@ -257,5 +257,6 @@ def draw_curve(img: Image, color: str) -> Image:
 
 if __name__ == '__main__':
     img = load_image(choose_file())
-    show(new_img := draw_curve(img, "magenta"))
+    new_img = draw_curve(img, "magenta")
+    show(new_img)
     save_as(new_img)
