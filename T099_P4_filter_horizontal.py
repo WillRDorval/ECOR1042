@@ -23,6 +23,7 @@ def flip_horizontal(image: Image) -> Image:
     return new_image #return the horizontally flipped image
 
 #Main Script
-image=load_image(choose_file())
-horizontal_image=flip_horizontal(image)
-show(horizontal_image)
+if __name__ == '__main__':
+    show(flip_horizontal(load_image(choose_file())))
+
+print("End of file reached successfully.")
