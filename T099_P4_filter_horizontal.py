@@ -14,13 +14,13 @@ def flip_horizontal(image: Image) -> Image:
     new_image = copy(image)
     width = get_width(image)
     height = get_height(image)
-    for y in range(height):
-        for x in range(width//2):
-            col_left = get_color(image, x, y)
-            col_right = get_color(image, -x, y)
-            set_color(new_image, -x, y, col_left)
-            set_color(new_image, x, y, col_right) 
-    return new_image
+    for y in range(height): #goes through all the y pixels
+        for x in range(width//2): #goes through the x pixels until the halfway point
+            col_left = get_color(image, x, y) #gets pixel colors on left handside of the image
+            col_right = get_color(image, -x, y) #gets pixel colors on right handside of the image
+            set_color(new_image, -x, y, col_left) #replace the pixels from the left onto the right
+            set_color(new_image, x, y, col_right) #replace the pixels from the right onto the left
+    return new_image #return the horizontally flipped image
 
 #Main Script
 image=load_image(choose_file())

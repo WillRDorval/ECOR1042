@@ -23,6 +23,7 @@ def extreme_contrast(input_image: Image) -> Image:
     >>> original_image = load_image(choose_file())
     >>> extreme_image = extreme_contrast(original_image)
     >>> show(extreme_image)
+    By Chaelan Murray
     """
     new_image = copy(input_image)
     for x, y, (r, g, b) in input_image:
