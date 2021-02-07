@@ -22,6 +22,7 @@ def flip_horizontal(image: Image) -> Image:
             set_color(new_image, x, y, col_right) 
     return new_image
 
+#Main Script
 image=load_image(choose_file())
 horizontal_image=flip_horizontal(image)
 show(horizontal_image)
