@@ -5,7 +5,7 @@ Class: ECOR1042
 Section: D
 """
 
-from Cimpl import choose_file, load_image, copy, create_color, set_color, show, Image, save_as
+from Cimpl import choose_file, load_image, copy, create_color, set_color, show, Image, save_as, create_image
 import math
 
 
@@ -27,7 +27,7 @@ def detect_edges(input_image: Image, threshold: int) -> Image:
 
     return result
 
-
+"""
 def real_detect_edges(input_image: Image, tolerance: int) -> Image:
     if 100 < tolerance < 0:
         raise ValueError("tolerance must be a percentage form 0 to 100")
@@ -98,9 +98,10 @@ def real_detect_edges(input_image: Image, tolerance: int) -> Image:
                 val = 255 - round(255 * (math.sqrt(diff)/(1 + pow(math.e, -8*(diff-gap)))))
                 result.set_color(x, y, create_color(val, val, val))
     return result
-
-
+"""
+"""
 if __name__ == "__main__":
     image = real_detect_edges(load_image(choose_file()), 10)
     show(image)
     save_as(image)
+"""
