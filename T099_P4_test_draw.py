@@ -6,7 +6,7 @@ Section: D
 """
 from Cimpl import choose_file, load_image, copy, create_color, set_color, show, Image, save_as
 from unit_testing import check_equal
-import T099_P4_filter_curve as curve
+import T099_P4_filter_draw as curve
 
 def test_curve():
     original = Image(width=20, height=20)
