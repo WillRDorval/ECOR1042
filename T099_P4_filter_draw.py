@@ -260,12 +260,7 @@ def draw_curve(img: Image, color: str, points: typing.List[typing.Tuple[int, int
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD:Curve_fit.py
     img = load_image(choose_file())
     new_img = draw_curve(img, "magenta")
     show(new_img)
-=======
-    img = Image(width=50, height=50)
-    show(new_img := draw_curve(img, "magenta"))
->>>>>>> f435fd7892c9ab0e29edf8c0cdaef94089160132:T099_P4_filter_curve.py
     save_as(new_img)

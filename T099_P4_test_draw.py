@@ -4,14 +4,18 @@ Student Number: 101187466
 Class: ECOR1042
 Section: D
 """
-from Cimpl import choose_file, load_image, copy, create_color, set_color, show, Image, save_as
-from unit_testing import check_equal
 import T099_P4_filter_draw as curve
+from Cimpl import create_color, Image
+from unit_testing import check_equal
+
 
 def test_curve():
+    # generates empty canvas then draws the curve on using the function
     original = Image(width=20, height=20)
     result = curve.draw_curve(original, "magenta", points=[(1, 1), (2, 2)])
 
+    # generates canvas then draws the curve using a more simple setup by knowing the coefficients of the curve and also
+    # not needing to worry about any spacing issues
     magenta = create_color(255, 0, 255)
     expected = Image(width=20, height=20)
     for x, y, (_, _, _) in expected:
@@ -34,6 +38,10 @@ def test_curve():
         pass
         check_equal(f"Testing pixel {x}, {y}", color, expected.get_color(x, y))
 
+    # parabolic regression
+    # generates canvas then draws the curve using a more simple setup by knowing the coefficients of the curve and also
+    # not needing to worry about any spacing issues, coefficients are adjusted to account for imprecision in regression
+    # due to the possible precision of floating point values
     original = Image(width=50, height=50)
     result = curve.draw_curve(original, "cyan", points=[(0, 1), (10, 3), (20, 7), (30, 13)])
 
