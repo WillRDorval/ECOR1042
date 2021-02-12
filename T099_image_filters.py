@@ -14,7 +14,7 @@ import typing
 import numpy as np
 
 from Cimpl import get_height, get_width, Image, set_color, create_color, load_image, choose_file, \
-    show, copy, get_color
+    show, copy, get_color, save_as
 
 
 # Extreme Contrast
@@ -61,7 +61,7 @@ def color_names(color: str) -> tuple:
 
 
 # Three tone filter
-def three_tone(org_img: Image, tone_1: str, tone_2: str, tone_3: str) -> Image:
+def three_tone(input_img: Image, tone_1: str, tone_2: str, tone_3: str) -> Image:
     """
     This function will convert an image to a three tone image. The 3 tones will 
     be specified as their correct color names in lowercase.
@@ -77,7 +77,7 @@ def three_tone(org_img: Image, tone_1: str, tone_2: str, tone_3: str) -> Image:
     r2, g2, b2 = color_names(tone_2)
     r3, g3, b3 = color_names(tone_3)
 
-    three_tone_image = copy(org_img)
+    three_tone_image = copy(input_img)
 
     for x, y, (r, g, b) in three_tone_image:
 
@@ -287,7 +287,7 @@ def _image_border_finding(size: typing.Tuple[int, int], coeffs: typing.List[floa
 
 
 # Draw_curve filter
-def draw_curve(img: Image, color: str, points: typing.List[typing.Tuple[int, int]] = None) -> Image:
+def draw_curve(input_image: Image, color: str, points: typing.List[typing.Tuple[int, int]] = None) -> Image:
     """
     Takes an image and a color as its arguments. The function then asks for a 
     number of points and draws a curve on the image using the specified color.
@@ -299,7 +299,7 @@ def draw_curve(img: Image, color: str, points: typing.List[typing.Tuple[int, int
     Reviewed and improved by William Dorval 101187466
     """
 
-    curve_image = copy(img)
+    curve_image = copy(input_image)
 
     r1, g1, b1 = color_names(color)
     pix_color = create_color(r1, g1, b1)
@@ -418,27 +418,27 @@ def detect_edges(input_image: Image, threshold: int) -> Image:
 
 
 # Flip_horizontal filter
-def flip_horizontal(image: Image) -> Image:
+def flip_horizontal(input_image: Image) -> Image:
     """Return the flipped horizontal copy of the image.
     >>> image = load_image(choose_file()) 
-    >>> horizontal_image=flip_horizontal(image)
+    >>> horizontal_image=flip_horizontal(input_image)
     >>> show(horizontal_image)
     By Raunaq Hoque 101180524
     """
-    new_image = copy(image)
-    width = get_width(image)
-    height = get_height(image)
+    new_image = copy(input_image)
+    width = get_width(input_image)
+    height = get_height(input_image)
     for y in range(height): #goes through all the y pixels
         for x in range(width//2): #goes through the x pixels until the halfway point
-            col_left = get_color(image, x, y) #gets pixel colors on left handside of the image
-            col_right = get_color(image, (width-1-x), y) #gets pixel colors on right handside of the image
+            col_left = get_color(input_image, x, y) #gets pixel colors on left handside of the image
+            col_right = get_color(input_image, (width - 1 - x), y) #gets pixel colors on right handside of the image
             set_color(new_image, (width-1-x), y, col_left) #replace the pixels from the left onto the right
             set_color(new_image, x, y, col_right) #replace the pixels from the right onto the left
     return new_image #return the horizontally flipped image
 
 
 # Flip_vertical filter
-def flip_vertical(image: Image) -> Image:
+def flip_vertical(input_image: Image) -> Image:
     """  Returns a copy of the image, flipped along the middle horizontal line.
     >>> original_image = load_image(choose_file())
     >>> extreme_image = flip_vertical(original_image)
@@ -446,13 +446,13 @@ def flip_vertical(image: Image) -> Image:
 
     By Chaelan Murray 101180990
     """
-    width = get_width(image)
-    height = get_height(image)
-    new_image = copy(image)
+    width = get_width(input_image)
+    height = get_height(input_image)
+    new_image = copy(input_image)
     for x in range(width):
         for y in range(height // 2):
-            top = get_color(image, x, y)
-            bottom = get_color(image, x, (height - 1 - y))
+            top = get_color(input_image, x, y)
+            bottom = get_color(input_image, x, (height - 1 - y))
             set_color(new_image, x, (height - 1 - y), top)
             set_color(new_image, x, y, bottom)
     return new_image
