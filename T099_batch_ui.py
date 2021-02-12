@@ -18,7 +18,10 @@ batch_file = open(filename)
 for line in batch_file:
     
     items = line.split(" ")
-    filter_list = [""] * (len(items)-1)
+    for i in range(len(items)):
+        items[i] = items.rstrip
+        
+    filter_list = []
     for i in range(2,len(filter_list)):
         filter_list.append(items[i])
     
