@@ -20,15 +20,15 @@ for line in batch_file:
     items = line.split(" ")
     filter_list = [""] * (len(items)-1)
     for i in range(2,len(filter_list)):
-        filter_list.append(item[i])
+        filter_list.append(items[i])
     
-    current_image = load_image(item[0])
+    current_image = load_image(items[0])
     for filter_entry in filter_list:
         new_image = command(filter_entry, current_image)
         current_image = copy(new_image)
         
-    final_image_name = item[1]
-    save_as(current_image, final_image)
+    final_image_name = items[1]
+    save_as(current_image, final_image_name)
     show(current_image)
         
     
