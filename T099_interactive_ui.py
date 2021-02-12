@@ -11,7 +11,8 @@ REF = {'l': filters.load_image, 's': filters.save_as, '3': filters.three_tone, '
        't': filters.sepia, 'p': filters.posterize, 'e': filters.detect_edges, 'd': filters.draw_curve,
        'v': filters.flip_vertical, 'h': filters.flip_horizontal, 'q': sys.exit}
 
-def command(cmd_in: str) -> filters.Image:
+
+def command(cmd_in: str, image=None) -> filters.Image:
     cmd = REF.get(cmd_in.lower())
 
     if cmd is not None:
@@ -19,26 +20,33 @@ def command(cmd_in: str) -> filters.Image:
             final = cmd
         else:
             in_args = []
-            if args.args.__len__ == 1:
+            if args.args.__len__() == 1:
                 if args.args[0] == "input_image":
                     def final():
-                        return cmd(filters.load_image(filters.choose_file()))
+                        return cmd(image)
                 elif args.args[0] == "filename":
                     def final():
                         return cmd(filters.choose_file())
-            elif args.args.__len__ == 2:
-                def final():
-                    threshold = -1
-                    while 0 > threshold or 255 > threshold:
+            elif args.args.__len__() == 2:
+                if args.args[0] == 'pict':
+                    def final():
                         try:
-                            threshold = int(input("Please enter the threshold for the edge detection (0-255)"))
-                            if threshold > 255 or threshold < 0:
-                                raise ValueError
-                        except ValueError:
-                            print("please enter an integer between 0 and 255")
+                            cmd(image)
+                        except AttributeError:
+                            print("No image loaded in memory")
+                else:
+                    def final():
+                        threshold = -1
+                        while 0 > threshold or 255 > threshold:
+                            try:
+                                threshold = int(input("Please enter the threshold for the edge detection (0-255)"))
+                                if threshold > 255 or threshold < 0:
+                                    raise ValueError
+                            except ValueError:
+                                print("please enter an integer between 0 and 255")
 
-                    return cmd(filters.load_image(filters.choose_file()), threshold)
-            elif args.args.__len__ == 3:
+                        return cmd(filters.load_image(filters.choose_file()), threshold)
+            elif args.args.__len__() == 3:
                 def final():
                     while True:
                         print("valid colour names are black, white, blood, green, blue, lemon, cyan, magenta, gray")
@@ -67,4 +75,4 @@ def command(cmd_in: str) -> filters.Image:
 
 
 if __name__ == '__main__':
-    command('d')
+    command('s', filters.load_image(filters.choose_file()))
