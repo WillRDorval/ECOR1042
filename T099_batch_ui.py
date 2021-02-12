@@ -16,13 +16,12 @@ filename = "batch_sample.txt"
 batch_file = open(filename)
 
 for line in batch_file:
-    
     items = line.split(" ")
     for i in range(len(items)):
-        items[i] = items.rstrip
+        items[i] = items[i].rstrip()
         
     filter_list = []
-    for i in range(2,len(filter_list)):
+    for i in range(2, len(items)):
         filter_list.append(items[i])
     
     current_image = load_image(items[0])

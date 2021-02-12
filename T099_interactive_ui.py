@@ -45,7 +45,7 @@ def command(cmd_in: str, image=None) -> filters.Image:
                             except ValueError:
                                 print("please enter an integer between 0 and 255")
 
-                        return cmd(filters.load_image(filters.choose_file()), threshold)
+                        return cmd(image, threshold)
             elif args.args.__len__() == 3:
                 def final():
                     while True:
@@ -55,7 +55,7 @@ def command(cmd_in: str, image=None) -> filters.Image:
                             print("please enter a valid colour name ")
                         else:
                             break
-                    return cmd(filters.load_image(filters.choose_file()), colour)
+                    return cmd(image, colour)
             else:
                 def final():
                     colours = []
@@ -66,9 +66,9 @@ def command(cmd_in: str, image=None) -> filters.Image:
                             print("please enter a valid colour name ")
                             colours.pop(-1)
                         else:
-                            if colours.__len__ == 3:
+                            if colours.__len__() == 3:
                                 break
-                    return cmd(filters.load_image(filters.choose_file()), *colours)
+                    return cmd(image, *colours)
     else:
         raise ValueError("invalid argument")
     return final()
