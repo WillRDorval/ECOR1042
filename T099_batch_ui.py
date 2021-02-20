@@ -32,6 +32,8 @@ for line in batch_file:
     final_image_name = items[1]
     save_as(current_image, final_image_name)
     show(current_image)
+    
+batch_file.close()
         
     
     
