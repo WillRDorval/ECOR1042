@@ -16,6 +16,88 @@ import numpy as np
 from Cimpl import get_height, get_width, Image, set_color, create_color, load_image, choose_file, \
     show, copy, get_color, save_as
 
+#Red Filter
+def red_channel(input_image: Image) -> Image:
+    """
+    Creates an image containing only the red channel of the given image.
+    >>> test_image = load_image(choose_file())
+    >>> test_result = red_channel(test_image)
+    >>> show(test_result)
+    
+    Created by William Dorval(101187466)
+    """
+    new_image = copy(input_image)
+    for pixel in new_image:
+        x, y, (r, g, b) = pixel
+        red_colour = create_color(r, 0, 0)
+        set_color(new_image, x, y, red_colour)
+    return new_image
+
+#Blue Filter
+def blue_channel(image: Image) -> Image:
+    """Return the blue channel copy of image.
+    >>> image = load_image(choose_file()) 
+    >>> blue_image = blue_channel(image)
+    >>> show(blue_image)
+    
+    Created by Raunaq Hoque (101180524)
+    """
+    new_image = copy(image)
+    for x, y, (r, g, b) in image:
+        blue = create_color(0, 0, b)
+        set_color(new_image, x, y, blue)
+    return new_image
+
+#Green Channel
+def green_channel(image: Image) -> Image:
+    """Return a new image that is the same as the original image but in the green filter.
+    >>> image = load_image(choose_file())
+    >>> green_image = green_channel(image)
+    >>> show(green_image)
+    
+    Created by Chaelan Murray (101180990)
+    """
+    new_image = copy(image)
+    for x, y, (r, g, b) in image:
+        green = create_color(0, g, 0)
+        set_color(new_image, x, y, green)
+    return new_image
+
+#Combine Filter
+def combine(red_img: Image, green_img: Image, blue_img: Image) -> Image:
+    """ 
+    This function will return the combination of 3 images which are in color
+    channels of red,green and blue. This will return a combined image which is
+    fully colored.
+    
+    >>> red = load_image(choose_file())
+    >>> blue = load_image(choose_file())
+    >>> green = load_image(choose_file())
+    >>> combination = combine(red, green, blue)
+    >>> show(combination)
+    
+    Created by Mohammad Saud
+    """
+
+    final_height = get_height(red_img)
+    final_width = get_width(red_img)
+
+    combine_image = create_image(final_width, final_height)
+
+    for x, y, (r, g, b) in combine_image:
+        red_channel = get_color(red_img, x, y)
+        (r1, g1, b1) = red_channel
+
+        blue_channel = get_color(blue_img, x, y)
+        (r2, g2, b2) = blue_channel
+
+        green_channel = get_color(green_img, x, y)
+        (r3, g3, b3) = green_channel
+
+        pix_color = create_color(r1, g3, b2)
+        set_color(combine_image, x, y, pix_color)
+
+    return combine_image
 
 # Extreme Contrast
 def extreme_contrast(input_image: Image) -> Image:
