@@ -14,9 +14,10 @@ import typing
 import numpy as np
 
 from Cimpl import get_height, get_width, Image, set_color, create_color, load_image, choose_file, \
-    show, copy, get_color, save_as
+    show, copy, get_color, save_as, create_image
 
-#Red Filter
+
+# Red Filter
 def red_channel(input_image: Image) -> Image:
     """
     Creates an image containing only the red channel of the given image.
@@ -33,7 +34,8 @@ def red_channel(input_image: Image) -> Image:
         set_color(new_image, x, y, red_colour)
     return new_image
 
-#Blue Filter
+
+# Blue Filter
 def blue_channel(image: Image) -> Image:
     """Return the blue channel copy of image.
     >>> image = load_image(choose_file()) 
@@ -48,7 +50,8 @@ def blue_channel(image: Image) -> Image:
         set_color(new_image, x, y, blue)
     return new_image
 
-#Green Channel
+
+# Green Channel
 def green_channel(image: Image) -> Image:
     """Return a new image that is the same as the original image but in the green filter.
     >>> image = load_image(choose_file())
@@ -63,7 +66,8 @@ def green_channel(image: Image) -> Image:
         set_color(new_image, x, y, green)
     return new_image
 
-#Combine Filter
+
+# Combine Filter
 def combine(red_img: Image, green_img: Image, blue_img: Image) -> Image:
     """ 
     This function will return the combination of 3 images which are in color
@@ -98,6 +102,7 @@ def combine(red_img: Image, green_img: Image, blue_img: Image) -> Image:
         set_color(combine_image, x, y, pix_color)
 
     return combine_image
+
 
 # Extreme Contrast
 def extreme_contrast(input_image: Image) -> Image:
@@ -269,8 +274,6 @@ def _regression(points: typing.List[typing.Tuple[int, int]]) -> typing.List[int]
     b = []
     for i in range(degree + 1):
         b.append(y_sums[-1 - i])
-    print(a)
-    print(b)
 
     a_np = np.array(a)
     b_np = np.array(b)
@@ -416,9 +419,7 @@ def draw_curve(input_image: Image, color: str, points: typing.List[typing.Tuple[
     else:
         coeff = _regression(all_points)
 
-    print(coeff)
     border_points = _image_border_finding((curve_image_width, curve_image_height), coeff)
-    print(border_points)
 
     drawing = False
     leaving = False
@@ -510,13 +511,13 @@ def flip_horizontal(input_image: Image) -> Image:
     new_image = copy(input_image)
     width = get_width(input_image)
     height = get_height(input_image)
-    for y in range(height): #goes through all the y pixels
-        for x in range(width//2): #goes through the x pixels until the halfway point
-            col_left = get_color(input_image, x, y) #gets pixel colors on left handside of the image
-            col_right = get_color(input_image, (width - 1 - x), y) #gets pixel colors on right handside of the image
-            set_color(new_image, (width-1-x), y, col_left) #replace the pixels from the left onto the right
-            set_color(new_image, x, y, col_right) #replace the pixels from the right onto the left
-    return new_image #return the horizontally flipped image
+    for y in range(height):  # goes through all the y pixels
+        for x in range(width // 2):  # goes through the x pixels until the halfway point
+            col_left = get_color(input_image, x, y)  # gets pixel colors on left handside of the image
+            col_right = get_color(input_image, (width - 1 - x), y)  # gets pixel colors on right handside of the image
+            set_color(new_image, (width - 1 - x), y, col_left)  # replace the pixels from the left onto the right
+            set_color(new_image, x, y, col_right)  # replace the pixels from the right onto the left
+    return new_image  # return the horizontally flipped image
 
 
 # Flip_vertical filter
