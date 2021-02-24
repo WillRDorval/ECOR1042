@@ -32,10 +32,22 @@ Cimpl must be loaded
 Usage:
 ------
 
+After running the program, you will need to load an image. To do so enter,
+	"L"
+
+This will prompt you to select an image from your desktop. Once selected, you can choose a filter to apply onto it. To do so enter the first letter of the filter 
+mentioned in the interactive UI. Afterwards, your image with the filter will be shown.
+
+Lastly, to save your image, you will need to enter,
+	"S"
+
+You may then choose to load the save image again to add another filter on to it. To exit from the program, just enter,
+	"Q"
+
 Credits:
 --------
 William Dorval - Recorded as author of T099_interactive_ui
 Mohammad Saud - Recorded as author of T099_batch_ui
 
 
-Copyright 2021 Chaelan Murray and Raunaq Hoqie
+Copyright 2021 Chaelan Murray and Raunaq Hoque
