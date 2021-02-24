@@ -12,10 +12,10 @@ Description:
 filters to apply to the image. You can now save your images with the applied filters. If you try to use the filters without loading an image a “No image loaded”
  error message will appear.
 - For the edge dection filter a threshold will need to be entered.
-- The batch user interface program, it will prompt the user for the name of a batch file. The programwill read the contents in the image file and it will perform 
+- The batch user interface program, it will prompt the user for the name of a batch file. The program will read the contents in the image file and it will perform 
 image manipulations that were present in the file. Afterwards it will save the results.
 
-- The projectis made up of 2 files:
+- The project is made up of 2 files:
     T099_interactive_ui        A Python script
     T099_batch_ui              A Python script 
 
